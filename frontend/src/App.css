@@ -1,13 +1,22 @@
 .App {
   text-align: center;
   width: 100%;
-  overflow-x: hidden; /* Evita desbordamiento horizontal */
+  overflow-x: hidden;
+}
+
+/* NUEVO: Contenedor para centralizar el contenido */
+.header-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto; /* Esto es lo que centra la "pieza" */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-  /* La animación sigue igual */
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -18,16 +27,14 @@
 
 .App-header {
   background-color: #282c34;
-  /* Cambiamos min-height por height flexible para móviles */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Ajuste de fuente para evitar textos gigantes en móviles */
-  font-size: clamp(16px, 5vw, 24px); 
+  font-size: clamp(16px, 5vw, 24px);
   color: white;
-  padding: 20px; /* Añade aire a los lados */
+  padding: 20px;
 }
 
 .App-link {
@@ -35,22 +42,18 @@
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* --- ADAPTACIÓN MÓVIL --- */
 @media (max-width: 600px) {
   .App-header {
-    min-height: auto; /* Permite que el header crezca con el contenido */
-    padding: 40px 10px;
+    min-height: auto;
+    padding: 20px 10px;
   }
   
   .App-logo {
-    height: 30vmin; /* Logotipo un poco más pequeño en móviles */
+    height: 30vmin;
   }
 }

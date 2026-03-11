@@ -7,16 +7,15 @@ import { CartProvider } from './context/CartContext';
 
 // Componentes
 import Header from './components/Header';
+import Footer from './components/Footer';
 import Banner from './components/Banner';
 import WineCarousel from './components/WineCarousel';
-import Footer from './components/Footer';
 import Register from './components/Register';
 import Login from './components/Login';
 import Contacto from './components/Contacto';
 import CartPage from './components/CartPage';
 import MisPedidos from './components/MisPedidos';
 import DetalleBodega from './components/DetalleBodega';
-// AGREGADO: Importación de tu nueva página
 import Historia from './components/Historia';
 
 function App() {
@@ -25,30 +24,25 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
+        {/* El Header suele tener sus propios estilos, asegúrate que no tenga anchos fijos */}
         <Header lang={lang} setLang={setLang} />
         
-        <main style={{ minHeight: '80vh' }}>
+        {/* La clase .page-container centraliza el contenido y limita el ancho máximo */}
+        <main className="page-container">
           <Routes>
-            {/* Ruta Principal */}
             <Route path="/" element={<Banner lang={lang} />} />
-            
-            {/* Ruta de Historia */}
             <Route path="/historia" element={<Historia lang={lang} />} />
             
-            {/* Ruta del Catálogo */}
             <Route path="/catalogo" element={
-              <div style={{ padding: '50px' }}>
-                <h2 style={{ color: '#722f37', textAlign: 'center' }}>
-                  {lang === 'es' ? 'Nuestro Vinos' : 'Our wines'}
+              <div className="section-padding">
+                <h2 className="section-title">
+                  {lang === 'es' ? 'Nuestros Vinos' : 'Our wines'}
                 </h2>
                 <WineCarousel lang={lang} />
               </div>
             } />
             
-            {/* Ruta dinámica */}
             <Route path="/bodega/:id" element={<DetalleBodega lang={lang} />} />
-            
-            {/* Otras rutas */}
             <Route path="/contacto" element={<Contacto lang={lang} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
