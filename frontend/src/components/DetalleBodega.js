@@ -10,7 +10,6 @@ const DetalleBodega = ({ lang }) => {
   useEffect(() => {
     axios.get(`http://localhost:5000/api/bodegas/${id}`)
       .then(res => {
-        // console.log("Datos recibidos:", res.data); // Descomenta esto para ver qué llega
         setBodega(res.data);
         setLoading(false);
       })
@@ -20,25 +19,24 @@ const DetalleBodega = ({ lang }) => {
       });
   }, [id]);
 
-  if (loading) return <div style={{ color: '#fff', textAlign: 'center', marginTop: '50px' }}>Loading...</div>;
-  if (!bodega) return <div style={{ color: '#fff', textAlign: 'center' }}>Bodega no encontrada</div>;
+  if (loading) return <div style={{ textAlign: 'center', marginTop: '50px' }}>Loading...</div>;
+  if (!bodega) return <div style={{ textAlign: 'center' }}>Bodega no encontrada</div>;
 
   return (
-    <div style={styles.container}>
-      {/* Usamos la columna 'imagen_url' que viene de tu DB */}
+    // Usamos 'page-container' de tu CSS global para el centrado
+    <div className="page-container" style={styles.container}>
       <img 
         src={`/images/${bodega.imagen_url}`} 
         alt={bodega.nombre} 
         style={styles.image}
-        onError={(e) => { e.target.src = '/images/default.jpg'; }} // Imagen de respaldo por si falla
+        onError={(e) => { e.target.src = '/images/default.jpg'; }}
       />
       
       <div style={styles.content}>
-        <h1>{bodega.nombre}</h1>
-        <p><strong>Zona:</strong> {bodega.zona}</p>
+        <h1 style={styles.title}>{bodega.nombre}</h1>
+        <p><strong>{lang === 'es' ? 'Zona' : 'Region'}:</strong> {bodega.zona}</p>
         
         <p style={styles.description}>
-          {/* Usamos las columnas correspondientes a los idiomas */}
           {lang === 'es' ? bodega.descripcion_es : bodega.descripcion_en}
         </p>
 
@@ -52,37 +50,44 @@ const DetalleBodega = ({ lang }) => {
 
 const styles = {
   container: {
-    maxWidth: '800px',
-    margin: '40px auto',
-    padding: '20px',
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    padding: '15px', // Menos padding en móvil
+    backgroundColor: 'white',
     borderRadius: '15px',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+    margin: '20px auto'
   },
   image: {
     width: '100%',
-    height: '400px',
+    height: 'auto', // Clave: permite que la altura sea proporcional al ancho
+    maxHeight: '300px', // Limitamos para móvil
     objectFit: 'cover',
     borderRadius: '10px'
   },
+  title: {
+    fontSize: 'clamp(1.5rem, 5vw, 2.5rem)', // El título se ajusta según el tamaño de pantalla
+    color: '#722f37',
+    margin: '15px 0'
+  },
   content: {
-    padding: '20px 0',
+    padding: '10px 0',
     color: '#333'
   },
   description: {
-    fontSize: '1.1rem',
-    lineHeight: '1.8',
+    fontSize: '1rem',
+    lineHeight: '1.6',
     color: '#555',
-    marginTop: '20px'
+    marginTop: '15px'
   },
   button: {
-    display: 'inline-block',
-    marginTop: '20px',
-    padding: '10px 20px',
+    display: 'block', // Botón de ancho completo en móvil
+    textAlign: 'center',
+    marginTop: '25px',
+    padding: '12px',
     backgroundColor: '#722f37',
     color: '#fff',
     textDecoration: 'none',
-    borderRadius: '5px'
+    borderRadius: '25px',
+    fontWeight: 'bold'
   }
 };
 
