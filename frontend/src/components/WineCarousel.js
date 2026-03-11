@@ -12,69 +12,68 @@ const WineCarousel = ({ lang }) => {
       .catch(err => console.error("Error al cargar vinos:", err));
   }, []);
 
-  const buttonStyle = {
-    backgroundColor: '#722f37',
-    color: 'white',
-    border: 'none',
-    borderRadius: '25px',
-    padding: '12px 20px',
-    cursor: 'pointer',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    width: '100%',
-    transition: 'background 0.3s'
-  };
-
   return (
-    <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+    // Usamos 'page-container' para mantener la alineación global
+    <div className="page-container">
       <div style={{ 
         display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-        gap: '30px' 
+        /* En móvil: 1 columna, en tablet/PC: 2 o 3 columnas automáticas */
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+        gap: '20px',
+        justifyItems: 'center'
       }}>
         {wines.map(wine => (
           <div key={wine.id} style={{ 
+            width: '100%',
+            maxWidth: '350px', // Evita que en pantallas grandes la tarjeta se estire demasiado
             border: '1px solid #eee', 
-            padding: '20px', 
-            borderRadius: '25px', 
+            padding: '15px', 
+            borderRadius: '20px', 
             textAlign: 'center',
             backgroundColor: '#ffffff',
-            boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
+            boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between'
+            flexDirection: 'column'
           }}>
-            {/* Construcción de la ruta: asume que la imagen está en public/images/ */}
             <img 
               src={`/images/${wine.imagen_url}`} 
               alt={lang === 'es' ? wine.nombre_es : wine.nombre_en}
               onError={(e) => { e.target.src = '/images/placeholder.jpg'; }} 
               style={{ 
                 width: '100%', 
-                height: '250px', 
+                height: '200px', // Un poco más bajo para móvil
                 objectFit: 'cover', 
                 borderRadius: '15px', 
-                marginBottom: '15px' 
+                marginBottom: '10px' 
               }} 
             />
             
             <div style={{ flexGrow: 1 }}>
-              <h3 style={{ color: '#722f37', margin: '10px 0' }}>
+              <h3 style={{ color: '#722f37', margin: '10px 0', fontSize: '1.2rem' }}>
                 {lang === 'es' ? wine.nombre_es : wine.nombre_en}
               </h3>
-              <p style={{ color: '#555', fontSize: '14px', marginBottom: '10px' }}>
+              <p style={{ color: '#555', fontSize: '0.9rem', marginBottom: '10px', lineHeight: '1.4' }}>
                 {lang === 'es' ? wine.descripcion_es : wine.descripcion_en}
               </p>
-              <p style={{ fontWeight: 'bold', fontSize: '18px', color: '#333' }}>
+              <p style={{ fontWeight: 'bold', fontSize: '1.1rem', color: '#333' }}>
                 {wine.precio} USD
               </p>
             </div>
             
             <button 
-              style={buttonStyle}
+              style={{
+                backgroundColor: '#722f37',
+                color: 'white',
+                border: 'none',
+                borderRadius: '25px',
+                padding: '10px 15px',
+                marginTop: '15px',
+                cursor: 'pointer',
+                fontSize: '0.9rem',
+                fontWeight: 'bold',
+                width: '100%'
+              }}
               onClick={() => addToCart(wine)}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#5a242a'}
-              onMouseOut={(e) => e.target.style.backgroundColor = '#722f37'}
             >
               {lang === 'es' ? 'Agregar al carrito' : 'Add to cart'}
             </button>

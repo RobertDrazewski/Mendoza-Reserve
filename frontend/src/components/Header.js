@@ -5,46 +5,56 @@ import { useAuth } from '../context/AuthContext';
 
 const Header = ({ lang, setLang }) => {
   const { cart } = useCart();
-  // Nota: si no usas logout en esta versión, puedes dejarlo así:
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   
-  // Estilo base para los links
-  const linkStyle = {
-    backgroundColor: '#722f37',
-    color: 'white',
-    padding: '6px 12px',
+  // Estilo forzado para que los botones siempre tengan visibilidad
+  const btnStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '8px 12px',
     borderRadius: '20px',
     textDecoration: 'none',
-    fontSize: '12px',
+    fontSize: '11px',
     fontWeight: 'bold',
-    whiteSpace: 'nowrap'
+    color: 'white',
+    backgroundColor: '#722f37',
+    border: 'none',
+    cursor: 'pointer',
+    minWidth: '70px' // Aseguramos un ancho mínimo
   };
 
   return (
-    <header className="header-mobile">
-      {/* 1. Logo */}
-      <div className="logo-section">
-        <h1 style={{ margin: 0, fontSize: '18px', letterSpacing: '1px' }}>MENDOZA RESERVE</h1>
+    <header className="header-mobile" style={{ display: 'flex', flexDirection: 'column', padding: '10px' }}>
+      
+      {/* FILA SUPERIOR: Logo y Carrito */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: '8px' }}>
+        <h1 style={{ margin: 0, fontSize: '18px', color: '#722f37' }}>MENDOZA RESERVE</h1>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <Link to="/carrito" style={{ textDecoration: 'none', fontSize: '18px' }}>🛒 {cart?.length || 0}</Link>
+          <button onClick={() => setLang(lang === 'es' ? 'en' : 'es')} style={{ background: 'none', border: 'none' }}>
+            {lang === 'es' ? '🇦🇷' : '🇬🇧'}
+          </button>
+        </div>
       </div>
 
-      {/* 2. Navegación */}
-      <nav className="nav-links">
-        <Link to="/" style={linkStyle}>{lang === 'es' ? 'Inicio' : 'Home'}</Link>
-        <Link to="/historia" style={linkStyle}>{lang === 'es' ? 'Historia' : 'Story'}</Link>
-        <Link to="/catalogo" style={linkStyle}>{lang === 'es' ? 'Vinos' : 'Wines'}</Link>
+      {/* FILA DE NAVEGACIÓN */}
+      <nav style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '10px' }}>
+        <Link to="/" style={btnStyle}>Inicio</Link>
+        <Link to="/historia" style={btnStyle}>Historia</Link>
+        <Link to="/catalogo" style={btnStyle}>Vinos</Link>
       </nav>
 
-      {/* 3. Acciones (Carrito y Idioma) */}
-      <div className="actions-section">
-        <Link to="/carrito" style={{ textDecoration: 'none', fontSize: '18px' }}>
-          🛒 {cart?.length || 0}
-        </Link>
-        <button 
-          onClick={() => setLang(lang === 'es' ? 'en' : 'es')} 
-          style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px' }}
-        >
-          {lang === 'es' ? '🇦🇷' : '🇬🇧'}
-        </button>
+      {/* FILA DE LOGIN/REGISTRO (Forzada para que siempre se vea) */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', width: '100%' }}>
+        {user ? (
+          <button onClick={logout} style={{...btnStyle, backgroundColor: '#5a242a'}}>Salir</button>
+        ) : (
+          <>
+            <Link to="/login" style={{...btnStyle, backgroundColor: '#4a4a4a'}}>Login</Link>
+            <Link to="/register" style={{...btnStyle, backgroundColor: '#4a4a4a'}}>Registro</Link>
+          </>
+        )}
       </div>
     </header>
   );
