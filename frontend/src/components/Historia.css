@@ -1,0 +1,40 @@
+/* Importamos una fuente elegante tipo Serif desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+
+.historia-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
+  /* Aplicamos la fuente elegante */
+  font-family: 'Playfair Display', serif; 
+  line-height: 1.8;
+  color: #4a4a4a;
+  background-color: #fdfcf9; /* Un tono crema muy suave para resaltar el vino */
+  border-radius: 8px;
+}
+
+.hero {
+  text-align: center;
+  padding: 40px 0;
+  border-bottom: 2px solid #722f37;
+}
+
+.hero h1 {
+  color: #722f37; /* Color vino */
+  font-size: 3rem;
+  font-weight: 400;
+  font-style: italic; /* Cursiva elegante */
+  letter-spacing: 1px;
+}
+
+.story-content h2 {
+  color: #722f37; /* Combinamos con el color vino */
+  margin-top: 35px;
+  font-style: italic;
+}
+
+/* Agregamos un toque especial a los párrafos */
+.story-content p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
