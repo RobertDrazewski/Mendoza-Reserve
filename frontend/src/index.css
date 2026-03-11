@@ -5,6 +5,21 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* ESTAS LÍNEAS SON CLAVE PARA EL MÓVIL */
+  overflow-x: hidden; /* Evita scroll horizontal accidental */
+  width: 100%;
+}
+
+/* Asegura que todos los elementos respeten el borde de la caja */
+* {
+  box-sizing: border-box;
+}
+
+/* Evita que las imágenes se salgan del contenedor en móviles */
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 code {
