@@ -1,3 +1,6 @@
+/* 1. Fuente global y configuración de base */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,24 +8,86 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
-  /* ESTAS LÍNEAS SON CLAVE PARA EL MÓVIL */
-  overflow-x: hidden; /* Evita scroll horizontal accidental */
+  overflow-x: hidden;
   width: 100%;
+  background-color: #fdfcf9; /* Fondo crema suave para toda la app */
+  color: #333;
 }
 
-/* Asegura que todos los elementos respeten el borde de la caja */
 * {
   box-sizing: border-box;
 }
 
-/* Evita que las imágenes se salgan del contenedor en móviles */
+/* 2. Contenedor centralizado para todo el contenido */
+.page-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 80vh;
+  padding: 20px 0;
+}
+
+/* 3. Imágenes responsivas */
 img {
   max-width: 100%;
   height: auto;
 }
 
+/* 4. Estilos específicos para secciones */
+.section-padding {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-title {
+  color: #722f37;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+}
+
+/* 5. Header Responsive (Clases para el Header.js que editamos) */
+.header-mobile {
+  background: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #722f37;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  flex-wrap: wrap;
+}
+
+.logo-section { color: #722f37; width: 100%; text-align: center; margin-bottom: 10px; }
+
+.nav-links {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  width: 100%;
+}
+
+.actions-section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+/* 6. Breakpoint para Escritorio */
+@media (min-width: 768px) {
+  .header-mobile { flex-wrap: nowrap; padding: 15px 50px; }
+  .logo-section { width: auto; margin: 0; }
+  .nav-links { width: auto; gap: 15px; }
+  .actions-section { width: auto; margin-top: 0; padding-top: 0; border: none; }
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
