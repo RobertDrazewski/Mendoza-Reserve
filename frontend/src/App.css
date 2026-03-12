@@ -1,59 +1,61 @@
+/* --- 1. RESET GLOBAL --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: #fdfcf9; /* Color crema suave de tu marca */
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- 2. CONTENEDOR PRINCIPAL --- */
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
 }
 
-/* NUEVO: Contenedor para centralizar el contenido */
-.header-container {
+/* --- 3. LAYOUT RESPONSIVO --- */
+/* Este contenedor asegura que el contenido nunca toque los bordes laterales en móvil 
+   y se mantenga centrado en escritorio */
+.page-container {
   width: 90%;
   max-width: 1200px;
-  margin: 0 auto; /* Esto es lo que centra la "pieza" */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: 0 auto;
+  padding: 20px 0;
+  flex: 1; /* Esto empuja el footer hacia abajo si el contenido es corto */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* --- 4. CLASES DE AYUDA --- */
+.section-title {
+  color: #722f37;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 30px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: clamp(16px, 5vw, 24px);
+/* Estilo unificado para botones primarios en toda la app */
+.btn-primary {
+  background: #722f37;
   color: white;
-  padding: 20px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* --- ADAPTACIÓN MÓVIL --- */
-@media (max-width: 600px) {
-  .App-header {
-    min-height: auto;
-    padding: 20px 10px;
-  }
-  
-  .App-logo {
-    height: 30vmin;
-  }
+.btn-primary:hover {
+  background: #5a242a;
 }

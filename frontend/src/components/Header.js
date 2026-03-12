@@ -2,59 +2,56 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
-const Header = ({ lang, setLang }) => {
+const Header = () => {
   const { cart } = useCart();
   const { user, logout } = useAuth();
-  
-  // Estilo forzado para que los botones siempre tengan visibilidad
-  const btnStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '8px 12px',
-    borderRadius: '20px',
-    textDecoration: 'none',
-    fontSize: '11px',
-    fontWeight: 'bold',
-    color: 'white',
-    backgroundColor: '#722f37',
-    border: 'none',
-    cursor: 'pointer',
-    minWidth: '70px' // Aseguramos un ancho mínimo
+  const { lang, setLang } = useLanguage();
+
+  const t = {
+    es: { nav: ["Inicio", "Historia", "Vinos", "Contacto"], auth: { login: "Login", register: "Registro", logout: "Salir" } },
+    en: { nav: ["Home", "History", "Wines", "Contact"], auth: { login: "Login", register: "Register", logout: "Logout" } }
   };
+  const current = t[lang] || t['es'];
 
   return (
-    <header className="header-mobile" style={{ display: 'flex', flexDirection: 'column', padding: '10px' }}>
-      
-      {/* FILA SUPERIOR: Logo y Carrito */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: '8px' }}>
-        <h1 style={{ margin: 0, fontSize: '18px', color: '#722f37' }}>MENDOZA RESERVE</h1>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <Link to="/carrito" style={{ textDecoration: 'none', fontSize: '18px' }}>🛒 {cart?.length || 0}</Link>
-          <button onClick={() => setLang(lang === 'es' ? 'en' : 'es')} style={{ background: 'none', border: 'none' }}>
-            {lang === 'es' ? '🇦🇷' : '🇬🇧'}
-          </button>
-        </div>
+    <header className="header-main">
+      {/* 1. IZQUIERDA: Logo */}
+      <div className="header-left">
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <h1 className="logo">MENDOZA RESERVE</h1>
+        </Link>
       </div>
 
-      {/* FILA DE NAVEGACIÓN */}
-      <nav style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '10px' }}>
-        <Link to="/" style={btnStyle}>Inicio</Link>
-        <Link to="/historia" style={btnStyle}>Historia</Link>
-        <Link to="/catalogo" style={btnStyle}>Vinos</Link>
+      {/* 2. CENTRO: Navegación */}
+      <nav className="header-nav">
+        <Link to="/" className="nav-btn">{current.nav[0]}</Link>
+        <Link to="/historia" className="nav-btn">{current.nav[1]}</Link>
+        <Link to="/catalogo" className="nav-btn">{current.nav[2]}</Link>
+        <Link to="/contacto" className="nav-btn">{current.nav[3]}</Link>
       </nav>
 
-      {/* FILA DE LOGIN/REGISTRO (Forzada para que siempre se vea) */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', width: '100%' }}>
-        {user ? (
-          <button onClick={logout} style={{...btnStyle, backgroundColor: '#5a242a'}}>Salir</button>
-        ) : (
-          <>
-            <Link to="/login" style={{...btnStyle, backgroundColor: '#4a4a4a'}}>Login</Link>
-            <Link to="/register" style={{...btnStyle, backgroundColor: '#4a4a4a'}}>Registro</Link>
-          </>
-        )}
+      {/* 3. DERECHA: Columna organizada */}
+      <div className="header-right-container">
+        <div className="auth-area">
+          {user ? (
+            <button onClick={logout} className="nav-btn">{current.auth.logout}</button>
+          ) : (
+            <>
+              <Link to="/login" className="nav-btn">{current.auth.login}</Link>
+              <Link to="/register" className="nav-btn">{current.auth.register}</Link>
+            </>
+          )}
+        </div>
+        
+        <div className="cart-lang-area">
+          <Link to="/carrito" className="cart-link">🛒 ({cart?.length || 0})</Link>
+          <div className="flags">
+            <button onClick={() => setLang('es')} className="flag-btn">🇦🇷</button>
+            <button onClick={() => setLang('en')} className="flag-btn">🇬🇧</button>
+          </div>
+        </div>
       </div>
     </header>
   );

@@ -1,91 +1,76 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const Register = () => {
   const [formData, setFormData] = useState({ nombre: '', email: '', password: '' });
+  const { lang } = useLanguage();
   const navigate = useNavigate();
 
-  const inputStyle = {
-    padding: '12px 20px',
-    borderRadius: '25px',
-    border: '1px solid #ccc',
-    fontSize: '14px',
-    width: '100%',
-    boxSizing: 'border-box'
+  const t = {
+    es: { 
+      title: "Registro", 
+      name: "Nombre", 
+      email: "Email", 
+      pass: "Contraseña", 
+      btn: "Registrarse", 
+      success: "Registro exitoso", 
+      error: "Error en el registro: Verifica los datos" 
+    },
+    en: { 
+      title: "Register", 
+      name: "Name", 
+      email: "Email", 
+      pass: "Password", 
+      btn: "Register", 
+      success: "Registration successful", 
+      error: "Registration error: Please check your data" 
+    }
   };
 
-  const buttonStyle = {
-    backgroundColor: '#722f37',
-    color: 'white',
-    border: 'none',
-    borderRadius: '25px',
-    padding: '12px',
-    cursor: 'pointer',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    marginTop: '10px',
-    transition: 'background 0.3s'
-  };
+  const currentT = t[lang] || t['es'];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post('http://localhost:5000/api/auth/register', formData);
-      alert('Registro exitoso');
+      alert(currentT.success);
       navigate('/login');
     } catch (err) {
-      alert('Error en el registro: Verifica que el email no esté en uso');
+      alert(currentT.error);
     }
   };
 
   return (
-    <div style={{ padding: '60px 20px', display: 'flex', justifyContent: 'center' }}>
-      <form 
-        onSubmit={handleSubmit} 
-        style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '15px', 
-          width: '100%', 
-          maxWidth: '350px',
-          padding: '40px',
-          borderRadius: '20px',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-          backgroundColor: '#f9f9f9'
-        }}
-      >
-        <h2 style={{ color: '#722f37', textAlign: 'center', margin: '0 0 10px 0' }}>Registro</h2>
+    <div className="auth-container">
+      <form onSubmit={handleSubmit} className="auth-form">
+        <h2 className="auth-title">{currentT.title}</h2>
         
         <input 
           type="text" 
-          placeholder="Nombre" 
-          style={inputStyle}
+          placeholder={currentT.name} 
+          className="auth-input"
           onChange={(e) => setFormData({...formData, nombre: e.target.value})} 
           required 
         />
         <input 
           type="email" 
-          placeholder="Email" 
-          style={inputStyle}
+          placeholder={currentT.email} 
+          className="auth-input"
           onChange={(e) => setFormData({...formData, email: e.target.value})} 
           required 
         />
         <input 
           type="password" 
-          placeholder="Contraseña" 
-          style={inputStyle}
+          placeholder={currentT.pass} 
+          className="auth-input"
           onChange={(e) => setFormData({...formData, password: e.target.value})} 
           required 
         />
         
-        <button 
-          type="submit" 
-          style={buttonStyle}
-          onMouseOver={(e) => e.target.style.backgroundColor = '#5a242a'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '#722f37'}
-        >
-          Registrarse
+        <button type="submit" className="auth-btn-submit">
+          {currentT.btn}
         </button>
       </form>
     </div>

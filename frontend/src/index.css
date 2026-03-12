@@ -1,93 +1,145 @@
-/* 1. Fuente global y configuración de base */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+/* --- 1. CONFIGURACIÓN GLOBAL --- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;0,700&family=Inter:wght@400;600&display=swap');
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  width: 100%;
-  background-color: #fdfcf9; /* Fondo crema suave para toda la app */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body, html {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background-color: #fdfcf9;
   color: #333;
+  line-height: 1.6;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-/* 2. Contenedor centralizado para todo el contenido */
-.page-container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  min-height: 80vh;
-  padding: 20px 0;
-}
-
-/* 3. Imágenes responsivas */
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* 4. Estilos específicos para secciones */
-.section-padding {
-  padding: 20px 0;
+.app-wrapper {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-.section-title {
-  color: #722f37;
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-}
-
-/* 5. Header Responsive (Clases para el Header.js que editamos) */
-.header-mobile {
-  background: white;
-  padding: 10px;
+/* --- 2. HEADER ORGANIZADO --- */
+.header-main {
+  background-color: #ffffff;
+  padding: 15px 40px;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   border-bottom: 2px solid #722f37;
   position: sticky;
   top: 0;
   z-index: 1000;
-  flex-wrap: wrap;
 }
 
-.logo-section { color: #722f37; width: 100%; text-align: center; margin-bottom: 10px; }
+.logo { font-family: 'Playfair Display', serif; color: #722f37; font-size: 1.8rem; text-transform: uppercase; cursor: pointer; }
 
-.nav-links {
+/* Navegación al centro */
+.header-nav { display: flex; gap: 20px; align-items: center; justify-content: center; flex: 1; }
+
+.nav-btn {
+  text-decoration: none; color: #333; font-weight: 600; font-size: 0.9rem;
+  padding: 8px 18px; border: 1px solid #722f37;
+  border-radius: 5px 25px 5px 25px; transition: all 0.3s ease; background: #fdfcf9;
+}
+.nav-btn:hover { background: #722f37; color: white; }
+
+/* Derecha: Columnas organizadas */
+.header-right-container { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+.auth-nav { display: flex; gap: 10px; }
+.cart-lang-area { display: flex; gap: 15px; align-items: center; justify-content: flex-end; padding-top: 5px; font-weight: 600; }
+
+/* Banderas limpias */
+.flag-btn { 
+  background: transparent !important; border: none !important; cursor: pointer; 
+  padding: 0; font-size: 1.2rem; transition: transform 0.2s; 
+}
+.flag-btn:hover { transform: scale(1.2); }
+.cart-link { text-decoration: none; color: #333; font-weight: 600; }
+
+/* --- 3. FONDO HOME --- */
+.home-background {
+  background-image: url('./assets/fondo.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  flex: 1;
   display: flex;
-  gap: 5px;
+  align-items: center;
   justify-content: center;
-  width: 100%;
 }
 
-.actions-section {
+/* --- 4. BANNER Y BOTONES GOTA --- */
+.banner-container { text-align: center; padding: 50px 20px; }
+.banner-title { color: #fff; font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.bodegas-scroll { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 20px; }
+.bodega-btn {
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid #722f37;
+  padding: 15px 30px;
+  cursor: pointer; font-weight: 600; color: #722f37;
+  border-radius: 5px 35px 5px 35px;
+  transition: all 0.3s ease;
+}
+.bodega-btn:hover { background: #722f37; color: white; transform: scale(1.05); }
+
+/* --- 5. GRIDS (VINOS CONTROLADOS) --- */
+.wine-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+.wine-card { padding: 20px; text-align: center; border: 1px solid #eee; border-radius: 10px; background: white; }
+.wine-card img { max-width: 150px; height: auto; margin-bottom: 15px; }
+
+/* --- 6. ESTILO PREMIUM (HISTORIA, CONTACTO, AUTH) --- */
+.auth-container, .contacto-container, .historia-container {
+  max-width: 500px; margin: 50px auto; padding: 40px;
+  background-color: #fdfcf0; border: 8px double #b8860b;
+  text-align: center; font-family: 'Playfair Display', serif; color: #5a1e25;
+}
+
+/* --- 7. FOOTER --- */
+.footer-main { background-color: #222; color: #fff; padding: 30px; text-align: center; margin-top: auto; }
+
+/* --- 8. RESPONSIVIDAD --- */
+@media (max-width: 992px) { .wine-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { 
+  .header-main { flex-direction: column; gap: 15px; } 
+  .wine-grid { grid-template-columns: 1fr; } 
+  .header-right-container { align-items: center; }
+}
+
+/* --- REPARACIÓN DE CONTACTO --- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Esto fuerza las 2 columnas */
+  gap: 30px;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.contact-card {
+  padding: 30px;
+  background-color: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+/* --- FONDO GLOBAL PARA EL HOME --- */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  /* Si estás en el home, esta clase aplicada al body o al wrapper hará el trabajo */
+}
+
+.home-full-bg {
+  background-image: url('./assets/fondo.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
-  width: 100%;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid #eee;
-}
-
-/* 6. Breakpoint para Escritorio */
-@media (min-width: 768px) {
-  .header-mobile { flex-wrap: nowrap; padding: 15px 50px; }
-  .logo-section { width: auto; margin: 0; }
-  .nav-links { width: auto; gap: 15px; }
-  .actions-section { width: auto; margin-top: 0; padding-top: 0; border: none; }
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  flex-direction: column;
 }

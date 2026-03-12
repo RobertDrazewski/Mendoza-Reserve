@@ -1,10 +1,12 @@
 import React from 'react';
-import './Historia.css';
+import { useLanguage } from '../context/LanguageContext'; // Importamos el contexto
 
-const Historia = ({ lang }) => {
+const Historia = () => {
+  const { lang } = useLanguage(); // Obtenemos el idioma global
+
   const content = {
     es: {
-      title: " De Maipú al Mundo",
+      title: "De Maipú al Mundo",
       subtitle: "Un puente entre el corazón de Mendoza y la gastronomía inglesa.",
       originTitle: "Mi Historia",
       originText: "Soy Roberto, creador de Mendoza Reserve. Nací en Maipú, Mendoza, tierra de tradición y vides. A los 20 años emprendí un viaje que marcaría mi destino: viví un año en Italia y otro en España, para finalmente radicarme 13 años en el Reino Unido, donde me desempeñé como Head Chef.",
@@ -12,7 +14,7 @@ const Historia = ({ lang }) => {
       visionText: "Como chef, identifiqué una brecha clara: en Mendoza existen pequeñas bodegas con vinos de calidad mundial que no están siendo aprovechados en el mercado inglés. Mi visión es generar un enlace directo entre el pequeño productor mendocino y las grandes cadenas de restaurantes argentinos y steak houses en Inglaterra. Garantizo que cada pequeña bodega pueda exportar sus vinos orgánicos para que, en cada paladar inglés, se disfrute la esencia de Mendoza, sintiéndose como si estuvieran allí, rodeados de la montaña y la vid."
     },
     en: {
-      title: " From Maipú to the World",
+      title: "From Maipú to the World",
       subtitle: "A bridge between the heart of Mendoza and English gastronomy.",
       originTitle: "My Story",
       originText: "I am Roberto, founder of Mendoza Reserve. I was born in Maipú, Mendoza, a land of tradition and vines. At 20, I began a journey that would shape my destiny: I spent a year in Italy and a year in Spain, before settling for 13 years in the United Kingdom, where I worked as a Head Chef.",
@@ -27,7 +29,7 @@ const Historia = ({ lang }) => {
     <div className="historia-container">
       <section className="hero">
         <h1>{t.title}</h1>
-        <p>{t.subtitle}</p>
+        <p className="subtitle">{t.subtitle}</p>
       </section>
 
       <section className="story-content">

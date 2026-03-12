@@ -1,55 +1,73 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;0,700&display=swap');
 
 .historia-container {
-  /* En móvil, ajustamos el ancho y eliminamos márgenes excesivos */
   width: 90%; 
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 60px;
+  
+  /* Efecto de papel antiguo */
+  background-color: #fdfcf0; 
+  background-image: url('/images/old-paper.jpg'); /* Opcional: añade una textura de papel */
+  background-size: cover;
+  
+  /* Marco decorativo "membrete" dorado */
+  border: 10px double #b8860b; /* Dorado oscuro */
+  outline: 2px solid #722f37;
+  outline-offset: -15px;
+  
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  
   font-family: 'Playfair Display', serif; 
-  line-height: 1.6; /* Un poco más cerrado para lectura móvil */
-  color: #4a4a4a;
-  background-color: #fdfcf9;
-  border-radius: 8px;
+  color: #5a1e25; /* Color vino oscuro para el texto */
+  text-align: center;
+  line-height: 1.8;
 }
 
 .hero {
-  text-align: center;
-  padding: 20px 0;
-  border-bottom: 2px solid #722f37;
+  border-bottom: 2px solid #b8860b;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .hero h1 {
-  color: #722f37;
-  /* Usamos clamp para que el título sea fluido y no se rompa */
-  font-size: clamp(2rem, 8vw, 3rem);
-  font-weight: 400;
+  font-size: clamp(2.5rem, 8vw, 4rem);
   font-style: italic;
-  letter-spacing: 1px;
+  font-weight: 700;
   margin: 0;
+  color: #722f37;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .story-content h2 {
-  color: #722f37;
-  margin-top: 25px;
+  font-size: 2rem;
   font-style: italic;
-  font-size: 1.5rem;
+  color: #722f37;
+  margin: 40px 0 20px 0;
+  text-decoration: underline;
+  text-underline-offset: 8px;
 }
 
 .story-content p {
-  /* Tamaño de fuente legible para móvil */
-  font-size: 1.1rem;
-  margin-bottom: 15px;
+  font-size: 1.3rem;
+  margin-bottom: 25px;
+  text-align: justify; /* Justificado como en una carta formal */
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* --- ADAPTACIÓN MÓVIL --- */
 @media (max-width: 600px) {
   .historia-container {
-    padding: 15px;
+    padding: 30px 20px;
     width: 95%;
+    border-width: 5px;
+    outline-offset: -10px;
   }
-
-  .hero {
-    padding: 15px 0;
-  }
+  
+  .hero h1 { font-size: 2rem; }
+  .story-content h2 { font-size: 1.5rem; }
+  .story-content p { font-size: 1.1rem; }
 }

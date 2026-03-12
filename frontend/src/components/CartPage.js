@@ -1,126 +1,88 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext'; // Importante para saber quién compra
+import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const CartPage = () => {
   const { cart, clearCart, removeFromCart } = useCart();
   const { user } = useAuth();
+  const { lang } = useLanguage();
   const navigate = useNavigate();
 
-  // Calcular el total con dos decimales
   const total = cart.reduce((acc, item) => acc + (parseFloat(item.precio) || 0), 0);
 
+  const t = {
+    title: lang === 'es' ? '🍷 Resumen de tu Pedido' : '🍷 Order Summary',
+    empty: lang === 'es' ? 'Tu carrito está vacío.' : 'Your cart is empty.',
+    viewCatalog: lang === 'es' ? 'Ver Catálogo' : 'View Catalog',
+    delete: lang === 'es' ? 'Eliminar' : 'Remove',
+    totalText: lang === 'es' ? 'Total a Pagar:' : 'Total:',
+    clear: lang === 'es' ? 'Vaciar Carrito' : 'Clear Cart',
+    confirm: lang === 'es' ? 'Confirmar Orden de Compra' : 'Confirm Order',
+    success: lang === 'es' ? '¡Orden generada con éxito!' : 'Order generated successfully!'
+  };
+
   const finalizarCompra = async () => {
-    // 1. Verificación de Seguridad
     if (!user) {
-      alert('Debes iniciar sesión para finalizar la compra');
+      alert(lang === 'es' ? 'Debes iniciar sesión' : 'Please login');
       navigate('/login');
       return;
     }
-
-    if (cart.length === 0) return;
-
     try {
-      // 2. Enviar la orden al backend incluyendo el ID del usuario
       await axios.post('http://localhost:5000/api/orders', {
-        usuario_id: user.id, // Vinculamos la orden al usuario
+        usuario_id: user.id,
         productos: cart,
         total: total,
-        fecha: new Date().toISOString().slice(0, 19).replace('T', ' ') // Formato MySQL
+        fecha: new Date().toISOString().slice(0, 19).replace('T', ' ')
       });
-      
-      alert('¡Orden de compra generada con éxito! La bodega Mendoza Reserve ha recibido tu pedido.');
-      clearCart(); 
-      navigate('/'); // Redirigir al inicio tras el éxito
+      alert(t.success);
+      clearCart();
+      navigate('/');
     } catch (error) {
-      console.error("Error al generar la orden", error);
-      alert('Hubo un problema al procesar tu orden. Por favor, intenta más tarde.');
+      console.error("Error", error);
+      alert('Error.');
     }
   };
 
   return (
-    <div style={{ padding: '50px', maxWidth: '900px', margin: 'auto', minHeight: '70vh' }}>
-      <h2 style={{ color: '#722f37', borderBottom: '2px solid #722f37', paddingBottom: '10px' }}>
-        🍷 Resumen de tu Pedido
-      </h2>
+    <div className="page-container cart-page">
+      <h2 className="section-title">{t.title}</h2>
 
       {cart.length === 0 ? (
-        <div style={{ textAlign: 'center', marginTop: '50px' }}>
-          <p style={{ fontSize: '18px' }}>Tu carrito está vacío.</p>
-          <button onClick={() => navigate('/catalogo')} style={secondaryButtonStyle}>
-            Ver Catálogo
-          </button>
+        <div className="cart-empty">
+          <p>{t.empty}</p>
+          <button onClick={() => navigate('/catalogo')} className="btn-primary">{t.viewCatalog}</button>
         </div>
       ) : (
-        <div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
+        <div className="cart-content">
+          <ul className="cart-list">
             {cart.map((item, index) => (
-              <li key={index} style={listItemStyle}>
+              <li key={index} className="cart-item">
                 <div>
-                  <strong style={{ fontSize: '16px' }}>{item.nombre}</strong>
-                  <br />
-                  <small style={{ color: '#666' }}>{item.cepa}</small>
+                  <strong>{item.nombre}</strong><br />
+                  <small>{item.cepa}</small>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                  <span style={{ fontWeight: 'bold' }}>${parseFloat(item.precio).toLocaleString('es-AR')}</span>
-                  <button 
-                    onClick={() => removeFromCart(index)} 
-                    style={{ color: '#dc3545', border: '1px solid #dc3545', background: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}
-                  >
-                    Eliminar
-                  </button>
+                <div className="item-actions">
+                  <span className="price">${parseFloat(item.precio).toLocaleString('es-AR')}</span>
+                  <button onClick={() => removeFromCart(index)} className="btn-delete">{t.delete}</button>
                 </div>
               </li>
             ))}
           </ul>
 
-          <div style={{ marginTop: '30px', borderTop: '2px solid #ddd', paddingTop: '20px', textAlign: 'right' }}>
-            <h3 style={{ margin: '0 0 20px 0' }}>Total a Pagar: <span style={{ color: '#722f37' }}>${total.toLocaleString('es-AR')}</span></h3>
-            
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-              <button onClick={clearCart} style={{ ...secondaryButtonStyle, backgroundColor: '#6c757d' }}>
-                Vaciar Carrito
-              </button>
-              <button onClick={finalizarCompra} style={primaryButtonStyle}>
-                Confirmar Orden de Compra
-              </button>
+          <div className="cart-footer">
+            <h3>{t.totalText} <span>${total.toLocaleString('es-AR')}</span></h3>
+            <div className="footer-actions">
+              <button onClick={clearCart} className="btn-secondary">{t.clear}</button>
+              <button onClick={finalizarCompra} className="btn-primary">{t.confirm}</button>
             </div>
           </div>
         </div>
       )}
     </div>
   );
-};
-
-// Estilos rápidos en objetos
-const listItemStyle = {
-  borderBottom: '1px solid #eee',
-  padding: '15px 0',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center'
-};
-
-const primaryButtonStyle = {
-  backgroundColor: '#722f37',
-  color: 'white',
-  padding: '12px 25px',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  fontWeight: 'bold',
-  fontSize: '16px'
-};
-
-const secondaryButtonStyle = {
-  backgroundColor: '#722f37',
-  color: 'white',
-  padding: '10px 20px',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer'
 };
 
 export default CartPage;
