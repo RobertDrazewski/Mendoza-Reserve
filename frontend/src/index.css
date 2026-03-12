@@ -3,19 +3,16 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-body, html {
+html, body {
   height: 100%;
+  width: 100%;
   font-family: 'Inter', sans-serif;
   background-color: #fdfcf9;
   color: #333;
   line-height: 1.6;
 }
 
-.app-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+.app-wrapper { min-height: 100vh; display: flex; flex-direction: column; }
 
 /* --- 2. HEADER ORGANIZADO --- */
 .header-main {
@@ -32,8 +29,6 @@ body, html {
 }
 
 .logo { font-family: 'Playfair Display', serif; color: #722f37; font-size: 1.8rem; text-transform: uppercase; cursor: pointer; }
-
-/* Navegación al centro */
 .header-nav { display: flex; gap: 20px; align-items: center; justify-content: center; flex: 1; }
 
 .nav-btn {
@@ -43,103 +38,75 @@ body, html {
 }
 .nav-btn:hover { background: #722f37; color: white; }
 
-/* Derecha: Columnas organizadas */
 .header-right-container { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
 .auth-nav { display: flex; gap: 10px; }
 .cart-lang-area { display: flex; gap: 15px; align-items: center; justify-content: flex-end; padding-top: 5px; font-weight: 600; }
 
-/* Banderas limpias */
-.flag-btn { 
-  background: transparent !important; border: none !important; cursor: pointer; 
-  padding: 0; font-size: 1.2rem; transition: transform 0.2s; 
-}
+.flag-btn { background: transparent; border: none; cursor: pointer; font-size: 1.2rem; transition: transform 0.2s; }
 .flag-btn:hover { transform: scale(1.2); }
 .cart-link { text-decoration: none; color: #333; font-weight: 600; }
 
-/* --- 3. FONDO HOME --- */
-.home-background {
-  background-image: url('./assets/fondo.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* --- 4. BANNER Y BOTONES GOTA --- */
-.banner-container { text-align: center; padding: 50px 20px; }
-.banner-title { color: #fff; font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-.bodegas-scroll { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 20px; }
-.bodega-btn {
-  background: rgba(255, 255, 255, 0.7);
-  border: 2px solid #722f37;
-  padding: 15px 30px;
-  cursor: pointer; font-weight: 600; color: #722f37;
-  border-radius: 5px 35px 5px 35px;
-  transition: all 0.3s ease;
-}
-.bodega-btn:hover { background: #722f37; color: white; transform: scale(1.05); }
-
-/* --- 5. GRIDS (VINOS CONTROLADOS) --- */
-.wine-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
-.wine-card { padding: 20px; text-align: center; border: 1px solid #eee; border-radius: 10px; background: white; }
-.wine-card img { max-width: 150px; height: auto; margin-bottom: 15px; }
-
-/* --- 6. ESTILO PREMIUM (HISTORIA, CONTACTO, AUTH) --- */
-.auth-container, .contacto-container, .historia-container {
-  max-width: 500px; margin: 50px auto; padding: 40px;
-  background-color: #fdfcf0; border: 8px double #b8860b;
-  text-align: center; font-family: 'Playfair Display', serif; color: #5a1e25;
-}
-
-/* --- 7. FOOTER --- */
-.footer-main { background-color: #222; color: #fff; padding: 30px; text-align: center; margin-top: auto; }
-
-/* --- 8. RESPONSIVIDAD --- */
-@media (max-width: 992px) { .wine-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { 
-  .header-main { flex-direction: column; gap: 15px; } 
-  .wine-grid { grid-template-columns: 1fr; } 
-  .header-right-container { align-items: center; }
-}
-
-/* --- REPARACIÓN DE CONTACTO --- */
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Esto fuerza las 2 columnas */
-  gap: 30px;
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-
-.contact-card {
-  padding: 30px;
-  background-color: #ffffff;
-  border: 1px solid #eee;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-/* --- FONDO GLOBAL PARA EL HOME --- */
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  /* Si estás en el home, esta clase aplicada al body o al wrapper hará el trabajo */
-}
-
+/* --- 3. FONDO HOME (Full Screen) --- */
 .home-full-bg {
-  background-image: url('./assets/fondo.jpeg');
+  background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('./assets/fondo.jpeg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
   min-height: 100vh;
-  width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+/* --- 4. BANNER Y BOTONES GOTA --- */
+.banner-container { text-align: center; padding: 50px 20px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.banner-title { color: #fff; font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.bodegas-scroll { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 20px; }
+
+.bodega-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid #722f37;
+  padding: 15px 30px;
+  cursor: pointer; font-weight: 600; color: #722f37;
+  border-radius: 5px 35px 5px 35px;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.bodega-btn:hover { background: #722f37; color: white; transform: scale(1.08); }
+
+/* --- 5. GRIDS (VINOS) --- */
+.wine-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+.wine-card { padding: 20px; text-align: center; border: 1px solid #eee; border-radius: 10px; background: white; transition: 0.3s; }
+.wine-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+.wine-card img { max-width: 150px; height: auto; margin-bottom: 15px; }
+
+/* --- 6. ESTILO PREMIUM (HISTORIA, CONTACTO, AUTH) --- */
+.auth-container, .contacto-container, .historia-container {
+  max-width: 500px; margin: 50px auto; padding: 40px;
+  background-color: #ffffff; border: 1px solid #ddd;
+  border-radius: 20px 60px 20px 60px; /* Estilo gota contenedor */
+  text-align: center; font-family: 'Playfair Display', serif; color: #5a1e25;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* --- 7. CONTACTO (Grid reparado) --- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.contact-card { padding: 30px; background-color: #ffffff; border: 1px solid #eee; border-radius: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+
+/* --- 8. FOOTER --- */
+.footer-main { background-color: #222; color: #fff; padding: 30px; text-align: center; margin-top: auto; }
+
+/* --- 9. RESPONSIVIDAD --- */
+@media (max-width: 992px) { .wine-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { 
+  .header-main { flex-direction: column; gap: 15px; } 
+  .wine-grid { grid-template-columns: 1fr; } 
+  .header-right-container { align-items: center; }
+  .contact-grid { grid-template-columns: 1fr; }
 }

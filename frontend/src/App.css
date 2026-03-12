@@ -1,61 +1,135 @@
-/* --- 1. RESET GLOBAL --- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* --- 1. RESET Y CONFIGURACIÓN BASE --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  background-color: #fdfcf9; /* Color crema suave de tu marca */
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #fdfcf9;
   color: #333;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- 2. CONTENEDOR PRINCIPAL --- */
-.App {
+.App { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* --- 2. CONTENEDORES DE ESTILO "GOTA" (LOGIN, REGISTRO, PEDIDOS) --- */
+.auth-page-wrapper { 
+  display: flex; justify-content: center; align-items: center; 
+  min-height: 80vh; padding: 20px; width: 100%; 
+}
+
+.auth-container {
+  width: 100%; max-width: 450px; background: #ffffff; padding: 40px;
+  border-radius: 20px 60px 20px 60px; /* Estilo Gota */
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+/* --- 3. DETALLE DE BODEGA - TARJETA COMPACTA Y CENTRADA --- */
+.bodega-detail-wrapper {
+  display: flex; justify-content: center; align-items: center;
+  min-height: 80vh; padding: 20px; width: 100%;
+}
+
+.bodega-card-detail {
+  background: #ffffff;
+  border: 4px solid #722f37;
+  border-radius: 30px;
+  padding: 30px;
+  max-width: 400px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* --- 3. LAYOUT RESPONSIVO --- */
-/* Este contenedor asegura que el contenido nunca toque los bordes laterales en móvil 
-   y se mantenga centrado en escritorio */
-.page-container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 0;
-  flex: 1; /* Esto empuja el footer hacia abajo si el contenido es corto */
-}
-
-/* --- 4. CLASES DE AYUDA --- */
-.section-title {
-  color: #722f37;
+  align-items: center;
   text-align: center;
-  font-family: 'Playfair Display', serif;
-  margin-bottom: 30px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
-/* Estilo unificado para botones primarios en toda la app */
+.bodega-img {
+  width: 100%; 
+  max-width: 300px; 
+  height: 180px;
+  object-fit: cover;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  border: 2px solid #e0e0e0;
+}
+
+.bodega-desc { 
+  max-width: 320px; 
+  margin: 0 auto 20px auto; 
+  line-height: 1.6; 
+  color: #555; 
+  font-size: 0.95rem;
+}
+
+/* --- 4. ELEMENTOS COMUNES --- */
+.section-title { 
+  font-family: 'Playfair Display', serif; 
+  color: #722f37; 
+  margin-bottom: 20px; 
+}
+
 .btn-primary {
-  background: #722f37;
-  color: white;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: bold;
-  text-decoration: none;
-  display: inline-block;
-  transition: background 0.3s ease;
+  background: #722f37; color: white; padding: 12px 25px;
+  border: none; border-radius: 5px 35px 5px 35px;
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: transform 0.2s;
+}
+.btn-primary:hover { transform: scale(1.05); }
+
+/* --- 5. ORDEN DE PEDIDOS (Listado dentro de tarjeta) --- */
+.order-card-item {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: center;
+  font-size: 0.95rem;
+}
+.status-pending { color: #d4a017; font-weight: bold; }
+.status-completed { color: #2e7d32; font-weight: bold; }
+
+/* FORZAR ESTILOS PARA MIS PEDIDOS */
+.auth-page-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 80vh !important;
+  width: 100% !important;
+  background-color: transparent !important;
 }
 
-.btn-primary:hover {
-  background: #5a242a;
+.orders-list-content {
+  margin-top: 20px !important;
+  width: 100% !important;
+}
+/* --- CORRECCIÓN DE CENTRADO PARA TODAS LAS PÁGINAS --- */
+.main-content {
+  flex: 1; /* Esto hace que el main ocupe el espacio disponible */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centrado vertical */
+  align-items: center;     /* Centrado horizontal */
+  width: 100%;
+  min-height: 80vh;
+}
+
+/* El wrapper que usas en MisPedidos y CartPage */
+.auth-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 40px 20px;
+}
+
+/* La "Gota" - aseguramos que no se estire */
+.auth-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px 60px 20px 60px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+  text-align: center;
 }

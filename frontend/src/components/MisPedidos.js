@@ -9,8 +9,8 @@ const MisPedidos = () => {
   const { lang } = useLanguage();
 
   const t = {
-    es: { title: "Mis Pedidos", empty: "No tienes pedidos registrados.", date: "Fecha", wines: "Vinos", total: "Total", status: "Estado" },
-    en: { title: "My Orders", empty: "You have no orders yet.", date: "Date", wines: "Wines", total: "Total", status: "Status" }
+    es: { title: "Mis Pedidos", empty: "No tienes pedidos registrados.", date: "Fecha", total: "Total", status: "Estado" },
+    en: { title: "My Orders", empty: "You have no orders yet.", date: "Date", total: "Total", status: "Status" }
   };
 
   const currentT = t[lang] || t['es'];
@@ -24,37 +24,26 @@ const MisPedidos = () => {
   }, [user]);
 
   return (
-    <div className="page-container">
-      <h2 className="section-title">{currentT.title}</h2>
-      
-      {pedidos.length === 0 ? (
-        <p className="empty-msg">{currentT.empty}</p>
-      ) : (
-        <div className="table-wrapper">
-          <table className="orders-table">
-            <thead>
-              <tr>
-                <th>{currentT.date}</th>
-                <th>{currentT.wines}</th>
-                <th>{currentT.total}</th>
-                <th>{currentT.status}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pedidos.map(p => (
-                <tr key={p.id}>
-                  <td>{new Date(p.fecha).toLocaleDateString()}</td>
-                  <td>{p.vinos_comprados}</td>
-                  <td>${parseFloat(p.total).toLocaleString('es-AR')}</td>
-                  <td className={p.estado === 'Pendiente' ? 'status-pending' : 'status-completed'}>
-                    {p.estado}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+    <div className="auth-page-wrapper">
+      <article className="auth-container">
+        <h2 className="section-title">{currentT.title}</h2>
+        
+        {pedidos.length === 0 ? (
+          <p className="bodega-desc">{currentT.empty}</p>
+        ) : (
+          <div className="orders-list-content">
+            {pedidos.map(p => (
+              <div key={p.id} className="order-card-item">
+                <p><strong>{currentT.date}:</strong> {new Date(p.fecha).toLocaleDateString()}</p>
+                <p><strong>{currentT.total}:</strong> ${parseFloat(p.total).toLocaleString('es-AR')}</p>
+                <p><strong>{currentT.status}:</strong> 
+                  <span className={p.estado === 'Pendiente' ? 'status-pending' : 'status-completed'}> {p.estado}</span>
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </article>
     </div>
   );
 };

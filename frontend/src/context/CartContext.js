@@ -1,30 +1,27 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
+// 1. Creamos el contexto
 const CartContext = createContext();
 
+// 2. Creamos el Provider (asegúrate de que tenga el 'export' al principio)
 export const CartProvider = ({ children }) => {
-  // Intentamos cargar el carrito desde el almacenamiento local al iniciar
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem('mendoza_cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
-  // Cada vez que el carrito cambie, lo guardamos en localStorage
   useEffect(() => {
     localStorage.setItem('mendoza_cart', JSON.stringify(cart));
   }, [cart]);
 
-  // Función para agregar al carrito
   const addToCart = (product) => {
     setCart((prevCart) => [...prevCart, product]);
   };
 
-  // Función para eliminar un item específico por su índice
   const removeFromCart = (indexToRemove) => {
     setCart((prevCart) => prevCart.filter((_, index) => index !== indexToRemove));
   };
 
-  // Función para vaciar el carrito (usar al finalizar la compra)
   const clearCart = () => {
     setCart([]);
   };
@@ -36,4 +33,11 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-export const useCart = () => useContext(CartContext);
+// 3. Creamos el hook personalizado (también debe llevar 'export')
+export const useCart = () => {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCart debe ser usado dentro de un CartProvider');
+  }
+  return context;
+};
