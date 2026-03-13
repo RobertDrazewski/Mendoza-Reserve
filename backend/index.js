@@ -1,8 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
-const db = require('./config/db'); 
+const app = express();
+
+// Configuración de CORS permitiendo acceso global
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.use(express.json());
 
 // Importación de rutas
 const routes = {
@@ -13,35 +24,38 @@ const routes = {
     bodegas: require('./routes/bodegaRoutes')
 };
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-// --- Diagnóstico de Rutas ---
-Object.entries(routes).forEach(([name, router]) => {
-    // Si no es una función, es que el archivo no exportó un router correctamente
-    if (typeof router !== 'function') {
-        console.error(`❌ ERROR CRÍTICO: La ruta '${name}' no es una función (Router). Revisa el module.exports en su archivo.`);
-        process.exit(1); // Detiene el servidor para que corrijas el error
-    }
-});
-
-// --- Rutas de la API ---
+// 1. RUTAS DE LA API (Deben ir siempre antes del frontend)
 app.use('/api/vinos', routes.vinos);
 app.use('/api/users', routes.users);
 app.use('/api/auth', routes.auth);
 app.use('/api/orders', routes.orders);
 app.use('/api/bodegas', routes.bodegas); 
 
-app.get('/', (req, res) => res.send('Servidor corriendo correctamente'));
+// 2. CONFIGURACIÓN DE FRONTEND
+// Asegúrate de que este nombre coincida con tu carpeta en GitHub: 'frontend'
+const buildPath = path.join(__dirname, 'frontend', 'build');
+const indexPath = path.join(buildPath, 'index.html');
 
-app.use((req, res) => res.status(404).json({ error: "Ruta no encontrada" }));
+app.use(express.static(buildPath));
 
+// 3. MIDDLEWARE DE SPA: Redirige todo lo que no sea /api al index.html
+app.use((req, res, next) => {
+    if (!req.path.startsWith('/api')) {
+        if (fs.existsSync(indexPath)) {
+            return res.sendFile(indexPath);
+        }
+    }
+    next();
+});
+
+// 4. MANEJO DE ERRORES GLOBAL
 app.use((err, req, res, next) => {
-    console.error("Error global:", err.stack);
-    res.status(500).json({ error: "Algo salió mal" });
+    console.error("❌ Error detectado:", err.message);
+    res.status(500).json({ error: "Error interno del servidor" });
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Servidor activo en http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`✅ Servidor activo en puerto ${PORT}`);
+    console.log(`🔗 API escuchando en: http://localhost:${PORT}/api/`);
+});
