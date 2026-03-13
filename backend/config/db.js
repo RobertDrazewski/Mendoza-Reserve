@@ -1,28 +1,32 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise'); // Usamos la versión nativa de promesas
 require('dotenv').config();
 
-// Usamos createPool en lugar de createConnection
-// Esto permite manejar múltiples peticiones simultáneas y reconexiones automáticas
+// Creamos el Pool con la configuración SSL requerida por Aiven
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 23050, // Puerto de Aiven
   waitForConnections: true,
-  connectionLimit: 10, // Máximo 10 conexiones simultáneas
-  queueLimit: 0
+  connectionLimit: 10,
+  queueLimit: 0,
+  // ESTA ES LA PARTE CRÍTICA PARA RENDER Y AIVEN:
+  ssl: {
+    rejectUnauthorized: false 
+  }
 });
 
-// Verificamos la conexión inicial
-pool.getConnection((err, connection) => {
-  if (err) {
+// Verificación asíncrona de la conexión al iniciar
+(async () => {
+  try {
+    const connection = await pool.getConnection();
+    console.log('✅ Conexión al pool de MySQL establecida correctamente');
+    connection.release();
+  } catch (err) {
     console.error('--- ERROR DE CONEXIÓN A LA BASE DE DATOS ---');
     console.error(err.message);
-    return;
   }
-  console.log('✅ Conexión al pool de MySQL establecida correctamente');
-  connection.release(); // Liberamos la conexión de prueba al pool
-});
+})();
 
-// Exportamos el pool con promesas para poder usar async/await en tus rutas
-module.exports = pool.promise();
+module.exports = pool;
