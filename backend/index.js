@@ -6,13 +6,7 @@ require('dotenv').config();
 
 const app = express();
 
-// Configuración de CORS permitiendo acceso global
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
+app.use(cors());
 app.use(express.json());
 
 // Importación de rutas
@@ -24,7 +18,7 @@ const routes = {
     bodegas: require('./routes/bodegaRoutes')
 };
 
-// 1. RUTAS DE LA API (Deben ir siempre antes del frontend)
+// 1. RUTAS DE LA API
 app.use('/api/vinos', routes.vinos);
 app.use('/api/users', routes.users);
 app.use('/api/auth', routes.auth);
@@ -32,15 +26,14 @@ app.use('/api/orders', routes.orders);
 app.use('/api/bodegas', routes.bodegas); 
 
 // 2. CONFIGURACIÓN DE FRONTEND
-// Asegúrate de que este nombre coincida con tu carpeta en GitHub: 'frontend'
 const buildPath = path.join(__dirname, 'frontend', 'build');
-const indexPath = path.join(buildPath, 'index.html');
-
 app.use(express.static(buildPath));
 
-// 3. MIDDLEWARE DE SPA: Redirige todo lo que no sea /api al index.html
+// 3. MIDDLEWARE DE SPA (Intercepta peticiones manualmente sin rutas de Express)
 app.use((req, res, next) => {
-    if (!req.path.startsWith('/api')) {
+    // Si la ruta no empieza con /api y no es un archivo estático
+    if (!req.path.startsWith('/api') && !req.path.includes('.')) {
+        const indexPath = path.join(buildPath, 'index.html');
         if (fs.existsSync(indexPath)) {
             return res.sendFile(indexPath);
         }
@@ -57,5 +50,4 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ Servidor activo en puerto ${PORT}`);
-    console.log(`🔗 API escuchando en: http://localhost:${PORT}/api/`);
 });
