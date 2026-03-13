@@ -1,40 +1,37 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { FaWhatsapp, FaInstagram, FaTwitter } from 'react-icons/fa'; // Importamos los iconos
 
 const Footer = () => {
   const { lang } = useLanguage();
 
   const t = {
-    es: { 
-      copyright: "Selecciones de Vinos Boutique Premium | © 2026", 
-      privacy: "Política de Privacidad", 
-      terms: "Términos de Servicio" 
-    },
-    en: { 
-      copyright: "Premium Boutique Wine Selections | © 2026", 
-      privacy: "Privacy Policy", 
-      terms: "Terms of Service" 
-    }
+    es: { copyright: "© 2026 Mendoza Reserve. Todos los derechos reservados.", privacy: "Privacidad", terms: "Términos" },
+    en: { copyright: "© 2026 Mendoza Reserve. All rights reserved.", privacy: "Privacy", terms: "Terms" }
   };
 
   const currentT = t[lang] || t['es'];
 
   return (
     <footer className="footer-main">
-      <div className="footer-content">
-        <h3 className="footer-logo">MENDOZA RESERVE</h3>
-        <p className="footer-text">{currentT.copyright}</p>
-        
-        <div className="footer-links">
-          <span>{currentT.privacy}</span>
-          <span className="separator">•</span>
-          <span>{currentT.terms}</span>
-        </div>
+      <div className="footer-copyright">
+        {currentT.copyright}
+      </div>
 
-        <div className="footer-social">
-          <a href="https://wa.me/5492611234567" target="_blank" rel="noreferrer" className="social-icon">WhatsApp</a>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" className="social-icon">Instagram</a>
-        </div>
+      <div className="footer-legal">
+        <span>{currentT.privacy}</span> | <span>{currentT.terms}</span>
+      </div>
+
+      <div className="footer-social">
+        <a href="https://wa.me/5492611234567" target="_blank" rel="noreferrer" className="social-icon">
+          <FaWhatsapp size={20} />
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noreferrer" className="social-icon">
+          <FaInstagram size={20} />
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noreferrer" className="social-icon">
+          <FaTwitter size={20} />
+        </a>
       </div>
     </footer>
   );

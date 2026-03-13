@@ -4,6 +4,9 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 
+// Importas la imagen desde la carpeta assets
+import logoImage from '../assets/logo.jpg'; 
+
 const Header = () => {
   const { cart } = useCart();
   const { user, logout } = useAuth();
@@ -17,14 +20,24 @@ const Header = () => {
 
   return (
     <header className="header-main">
-      {/* 1. IZQUIERDA: Logo */}
       <div className="header-left">
-        <Link to="/" style={{ textDecoration: 'none' }}>
-          <h1 className="logo">MENDOZA RESERVE</h1>
+        <Link to="/">
+          {/* Aumentado a 80px para mayor visibilidad */}
+          <img 
+            src={logoImage} 
+            alt="Logo Mendoza Reserve" 
+            className="logo-img"
+            style={{ 
+              height: '80px', 
+              width: 'auto', 
+              display: 'block', 
+              cursor: 'pointer',
+              transition: 'height 0.3s ease' // Suaviza el cambio si lo animas después
+            }} 
+          />
         </Link>
       </div>
 
-      {/* 2. CENTRO: Navegación */}
       <nav className="header-nav">
         <Link to="/" className="nav-btn">{current.nav[0]}</Link>
         <Link to="/historia" className="nav-btn">{current.nav[1]}</Link>
@@ -32,7 +45,6 @@ const Header = () => {
         <Link to="/contacto" className="nav-btn">{current.nav[3]}</Link>
       </nav>
 
-      {/* 3. DERECHA: Columna organizada */}
       <div className="header-right-container">
         <div className="auth-area">
           {user ? (

@@ -5,15 +5,15 @@ const Contacto = () => {
   const { lang } = useLanguage();
 
   const t = {
-    es: { title: "Contacto", mendoza: "Mendoza, Argentina", uk: "Reino Unido (UK)" },
-    en: { title: "Contact", mendoza: "Mendoza, Argentina", uk: "United Kingdom (UK)" }
+    es: { mendoza: "Mendoza, Argentina", uk: "Reino Unido (UK)" },
+    en: { mendoza: "Mendoza, Argentina", uk: "United Kingdom (UK)" }
   };
 
   const currentT = t[lang] || t['es'];
 
   return (
     <div className="page-container contact-page">
-      <h2 className="section-title">{currentT.title}</h2>
+      {/* Se ha eliminado el h2 con la clase section-title */}
       
       <div className="contact-grid">
         <div className="contact-card">

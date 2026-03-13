@@ -19,28 +19,28 @@ const DetalleBodega = () => {
   if (!bodega) return <div className="error">Bodega no encontrada</div>;
 
   return (
-    // Usamos las clases maestras de tu página de contacto
     <div className="page-container contact-page">
-      <h2 className="section-title">{bodega.nombre}</h2>
-      
-      {/* Esta clase 'contact-card' aplicada aquí tomará el estilo de las tarjetas de contacto */}
+      {/* Movimos el artículo aquí para que sea el contenedor principal de la tarjeta */}
       <article className="contact-card">
+        
+        {/* Nombre de la bodega DENTRO y arriba de la imagen */}
+        <h2 className="section-title" style={{ marginBottom: '15px' }}>
+          {bodega.nombre}
+        </h2>
+        
         <img 
           src={`/images/${bodega.imagen_url}`} 
           alt={bodega.nombre} 
-          style={{ maxWidth: '100%', marginBottom: '1rem' }}
+          style={{ maxWidth: '100%', marginBottom: '1rem', borderRadius: '10px' }}
           onError={(e) => { e.target.src = '/images/default.jpg'; }}
         />
         
-        <h3 className="card-title">{bodega.zona}</h3>
+        <h3 className="card-title" style={{ marginBottom: '15px' }}>{bodega.zona}</h3>
         
         <p className="bodega-desc">
           {lang === 'es' ? bodega.descripcion_es : bodega.descripcion_en}
         </p>
-
-        <a href={`mailto:${bodega.contacto_email}`} className="btn-primary">
-          {lang === 'es' ? 'Contactar Bodega' : 'Contact Winery'}
-        </a>
+        
       </article>
     </div>
   );

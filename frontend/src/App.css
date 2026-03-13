@@ -133,3 +133,14 @@ html, body {
   box-shadow: 0 15px 35px rgba(0,0,0,0.08);
   text-align: center;
 }
+
+.header-main {
+  height: auto; /* Permite que el header crezca con el logo */
+  min-height: 100px;
+  padding: 10px 0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}

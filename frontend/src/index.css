@@ -49,19 +49,19 @@ html, body {
 /* --- 3. FONDO HOME (Full Screen) --- */
 .home-full-bg {
   background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('./assets/fondo.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background-size: cover; 
+  background-position: center center; 
   background-repeat: no-repeat;
   min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 /* --- 4. BANNER Y BOTONES GOTA --- */
-.banner-container { text-align: center; padding: 50px 20px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.banner-container { text-align: center; padding: 50px 20px; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 .banner-title { color: #fff; font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-.bodegas-scroll { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 20px; }
+.bodegas-scroll { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 20px; width: 100%; max-width: 800px; margin: 0 auto; }
 
 .bodega-btn {
   background: rgba(255, 255, 255, 0.2);
@@ -69,6 +69,8 @@ html, body {
   padding: 15px 30px;
   cursor: pointer; font-weight: 600; color: #722f37;
   border-radius: 5px 35px 5px 35px;
+  display: inline-block;
+  white-space: nowrap;
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .bodega-btn:hover { background: #722f37; color: white; transform: scale(1.08); }
@@ -83,30 +85,65 @@ html, body {
 .auth-container, .contacto-container, .historia-container {
   max-width: 500px; margin: 50px auto; padding: 40px;
   background-color: #ffffff; border: 1px solid #ddd;
-  border-radius: 20px 60px 20px 60px; /* Estilo gota contenedor */
+  border-radius: 20px 60px 20px 60px;
   text-align: center; font-family: 'Playfair Display', serif; color: #5a1e25;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
-/* --- 7. CONTACTO (Grid reparado) --- */
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 0 20px;
+/* --- 7. CONTACTO MODIFICADO --- */
+.contact-grid { 
+  display: flex;             /* Cambiamos de grid a flex */
+  justify-content: center;   /* Centra horizontalmente las tarjetas */
+  align-items: center;       /* Centra verticalmente si hubiera diferentes alturas */
+  flex-wrap: wrap;           /* Permite que bajen a la siguiente fila en móviles */
+  gap: 30px; 
+  max-width: 900px; 
+  margin: 40px auto; 
+  padding: 0 20px; 
 }
-.contact-card { padding: 30px; background-color: #ffffff; border: 1px solid #eee; border-radius: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 
+.contact-card { 
+  padding: 30px; 
+  background-color: #ffffff; 
+  border: 1px solid #eee; 
+  border-radius: 10px; 
+  text-align: center; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  flex: 0 1 350px;           /* Define un ancho base pero permite flexibilidad */
+}
 /* --- 8. FOOTER --- */
-.footer-main { background-color: #222; color: #fff; padding: 30px; text-align: center; margin-top: auto; }
+.footer-main { 
+  background-color: #ffffff;
+  border-top: 2px solid #722f37;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+.footer-social { display: flex; gap: 15px; }
+.social-icon { color: #722f37; transition: transform 0.2s; display: flex; }
+.social-icon:hover { transform: scale(1.2); color: #333; }
+.footer-legal { display: flex; gap: 10px; color: #666; }
 
-/* --- 9. RESPONSIVIDAD --- */
-@media (max-width: 992px) { .wine-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { 
-  .header-main { flex-direction: column; gap: 15px; } 
-  .wine-grid { grid-template-columns: 1fr; } 
-  .header-right-container { align-items: center; }
-  .contact-grid { grid-template-columns: 1fr; }
+/* --- 9. DETALLE BODEGA --- */
+.bodega-detail-card {
+  background: #ffffff; border: 1px solid #ddd;
+  border-radius: 20px 60px 20px 60px; padding: 30px;
+  max-width: 350px; width: 90%; margin: 40px auto;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+.bodega-detail-card img { max-width: 100%; height: auto; border-radius: 15px; margin: 15px 0; }
+.bodega-detail-card .section-title { margin-bottom: 5px; }
+
+/* --- REPARACIÓN RESPONSIVE PARA VINOS --- */
+@media (max-width: 768px) {
+  .wine-grid {
+    grid-template-columns: 1fr; /* Una sola columna en móviles */
+    gap: 20px;
+    padding: 20px 10px;
+  }
 }
