@@ -1,25 +1,28 @@
 const db = require('../config/db');
 
-// Obtener todos los vinos
 const getAllWines = async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM vinos');
+        // Realizamos un LEFT JOIN para traer el nombre de la bodega asociada
+        // v es el alias para vinos, b es el alias para bodegas
+        const query = `
+            SELECT v.*, b.nombre AS nombre_bodega 
+            FROM vinos v
+            LEFT JOIN bodegas b ON v.bodega_id = b.id
+        `;
+        
+        const [rows] = await db.query(query);
+        
+        // Log para depuración en tu consola de servidor
+        console.log(`✅ Se recuperaron ${rows.length} vinos correctamente.`);
+        
         res.status(200).json(rows);
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener los vinos de la base de datos', error });
+        console.error("❌ Error en getAllWines:", error.message);
+        res.status(500).json({ 
+            message: 'Error al obtener los vinos de la base de datos', 
+            error: error.message 
+        });
     }
 };
 
-// Si en el futuro necesitas obtener un vino por ID (para el detalle)
-const getWineById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const [rows] = await db.query('SELECT * FROM vinos WHERE id = ?', [id]);
-        if (rows.length === 0) return res.status(404).json({ message: 'Vino no encontrado' });
-        res.status(200).json(rows[0]);
-    } catch (error) {
-        res.status(500).json({ message: 'Error al obtener el vino', error });
-    }
-};
-
-module.exports = { getAllWines, getWineById };
+module.exports = { getAllWines };

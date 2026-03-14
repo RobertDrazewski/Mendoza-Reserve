@@ -1,21 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db'); 
+// Si usas el pool de conexiones aquí, impórtalo:
+const pool = require('../config/db');
 
-// Usamos async/await ya que tu pool de conexión está configurado para promesas
+// --- TUS RUTAS ---
 router.get('/', async (req, res) => {
     try {
-        const query = 'SELECT * FROM vinos';
-        
-        // Con la versión de Promesas, se usa await y desestructuración [rows]
-        const [results] = await db.query(query);
-        
-        // Devolvemos los resultados
-        res.status(200).json(results);
-    } catch (err) {
-        console.error("Error en base de datos:", err);
-        res.status(500).json({ error: 'Error al obtener vinos de la base de datos' });
+        const query = `
+            SELECT v.*, b.nombre AS nombre_bodega 
+            FROM vinos v
+            LEFT JOIN bodegas b ON v.bodega_id = b.id
+        `;
+        const [rows] = await pool.query(query);
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
+// --- ESTO ES LO QUE TE FALTA O ESTÁ MAL ---
 module.exports = router;

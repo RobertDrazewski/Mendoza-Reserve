@@ -5,31 +5,38 @@ import { useLanguage } from '../context/LanguageContext';
 
 const WineCarousel = () => {
   const [wines, setWines] = useState([]);
+  const [error, setError] = useState(null); // Nuevo estado para depurar
   const { addToCart } = useCart();
   const { lang } = useLanguage();
 
   useEffect(() => {
-    // Definimos la URL de la API: 
-    // Si estamos en producción, usamos una ruta relativa '/api/...'
-    // Si estamos en desarrollo, usamos la dirección de nuestro servidor local.
+    // Definimos la base URL de forma más limpia
     const apiBaseUrl = process.env.NODE_ENV === 'production' 
-      ? '' // En producción, se busca en el mismo dominio
+      ? '' 
       : 'http://localhost:5000';
 
     axios.get(`${apiBaseUrl}/api/vinos`)
-      .then(res => setWines(res.data))
-      .catch(err => console.error("Error al cargar vinos:", err));
+      .then(res => {
+        console.log("Vinos cargados:", res.data); // MIRA LA CONSOLA DEL NAVEGADOR
+        setWines(res.data);
+      })
+      .catch(err => {
+        console.error("Error al cargar vinos:", err);
+        setError("No se pudieron cargar los vinos. Revisa la consola.");
+      });
   }, []);
+
+  if (error) return <div className="error-msg">{error}</div>;
 
   return (
     <div className="page-container">
-      {/* Grid que se ajusta a una columna en móviles gracias al CSS que agregamos antes */}
       <div className="wine-grid">
         {wines.length > 0 ? (
           wines.map(wine => (
-            <div key={wine.id} className="wine-card">
+            <div key={wine.id || wine.nombre_es} className="wine-card">
               <img 
-                src={`/images/${wine.imagen_url}`} 
+                // Asegúrate de que las rutas a las imágenes sean correctas
+                src={wine.imagen_url ? `/images/${wine.imagen_url}` : '/images/placeholder.jpg'} 
                 alt={lang === 'es' ? wine.nombre_es : wine.nombre_en}
                 onError={(e) => { e.target.src = '/images/placeholder.jpg'; }} 
                 className="wine-img"
